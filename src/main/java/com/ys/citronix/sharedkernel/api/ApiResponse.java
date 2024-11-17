@@ -11,9 +11,9 @@ public class ApiResponse<ResponseDto> {
     private final HttpStatus status;
 
     public ApiResponse(ResponseDto data, String message, HttpStatus status) {
-        this.data = data;
         this.message = message;
         this.status = status;
+        this.data = data;
     }
 
 }

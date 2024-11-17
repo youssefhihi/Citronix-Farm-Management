@@ -1,7 +1,6 @@
 package com.ys.citronix.harvestManagement.domain.model;
 
 import com.ys.citronix.harvestManagement.domain.enums.Season;
-import com.ys.citronix.harvestManagement.domain.valueObject.HarvestId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -11,6 +10,7 @@ import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -18,7 +18,7 @@ import java.util.List;
 public class Harvest {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private HarvestId id;
+    private UUID id;
 
     @NotNull(message = "harvest date must not be null")
     private LocalDateTime harvestDate;

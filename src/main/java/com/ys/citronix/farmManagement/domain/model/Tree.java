@@ -1,5 +1,6 @@
 package com.ys.citronix.farmManagement.domain.model;
 
+import com.ys.citronix.farmManagement.domain.valueObject.TreeId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;

@@ -4,9 +4,10 @@ import com.ys.citronix.harvestManagement.domain.enums.Season;
 import com.ys.citronix.harvestManagement.domain.valueObject.HarvestId;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record HarvestResponseDto(
-        HarvestId id,
+        UUID id,
         LocalDateTime harvestDate,
         Double  totalQuantity,
         Season season

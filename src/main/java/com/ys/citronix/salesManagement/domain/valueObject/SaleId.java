@@ -1,9 +1,9 @@
 package com.ys.citronix.salesManagement.domain.valueObject;
 
-import jakarta.persistence.GeneratedValue;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.io.Serializable;
 import java.util.UUID;
 
-public record SaleId(@GeneratedValue UUID value) implements Serializable {
+public record SaleId(@UuidGenerator UUID value) implements Serializable {
 }

@@ -1,4 +1,4 @@
-package com.ys.citronix.farmManagement.presentation.api;
+package com.ys.citronix.farmManagement.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @Validated
-public class FarmController {
+public class FieldController {
 }
