@@ -3,6 +3,7 @@ package com.ys.citronix.salesManagement.domain.model;
 import com.ys.citronix.harvestManagement.domain.model.Harvest;
 import com.ys.citronix.salesManagement.domain.valueObject.SaleId;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Getter;
@@ -19,12 +20,12 @@ public class Sale {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private SaleId id;
+    private UUID id;
 
     @NotNull(message = "Sale date must not be null")
     private LocalDateTime saleDate;
 
-    @NotNull(message = "Client name must not be null")
+    @NotBlank(message = "Client name must not be null")
     private String clientName;
 
     @Positive(message = "Quantity sold must be greater than zero")

@@ -1,5 +1,6 @@
 package com.ys.citronix.farmManagement.domain.model;
 
+import com.ys.citronix.farmManagement.domain.valueObject.FieldId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;

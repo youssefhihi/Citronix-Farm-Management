@@ -9,6 +9,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -17,7 +18,7 @@ public class HarvestDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private HarvestDetailsId id;
+    private UUID id;
 
     @Positive(message = "Harvest quantity must be greater than zero")
     private Double quantity;

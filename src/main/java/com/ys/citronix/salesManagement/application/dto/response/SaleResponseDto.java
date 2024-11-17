@@ -1,12 +1,12 @@
 package com.ys.citronix.salesManagement.application.dto.response;
 
 import com.ys.citronix.harvestManagement.domain.model.Harvest;
-import com.ys.citronix.salesManagement.domain.valueObject.SaleId;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 public record SaleResponseDto(
-        SaleId id,
+        UUID id,
         LocalDateTime saleDate,
         String clientName,
         Double quantitySold,

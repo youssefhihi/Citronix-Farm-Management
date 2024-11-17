@@ -1,5 +1,6 @@
 package com.ys.citronix.farmManagement.domain.model;
 
+import com.ys.citronix.farmManagement.domain.valueObject.FarmId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -10,6 +11,7 @@ import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,8 +38,8 @@ public class Farm {
     @NotNull(message = "date create of farm is required")
     private LocalDateTime createdDateTime;
 
-    @OneToMany(mappedBy = "farm")
-    private List<Field> fields;
+    @OneToMany(mappedBy = "farm", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Field> fields = new ArrayList<>();
 
     @CreatedDate
     private LocalDateTime createdDate;

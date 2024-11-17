@@ -1,11 +1,11 @@
 package com.ys.citronix.salesManagement.application.dto.request;
 
-import com.ys.citronix.harvestManagement.domain.model.Harvest;
+
+import com.ys.citronix.harvestManagement.domain.valueObject.HarvestId;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public record SaleRequestDto(
         @NotNull(message = "Sale date must not be null")
@@ -15,8 +15,6 @@ public record SaleRequestDto(
         @Positive(message = "Quantity sold must be greater than zero")
         Double quantitySold,
         @Positive(message = "Price per unit must be greater than zero")
-        Double pricePerUnit,
-        @NotNull(message = "harvest must not be null")
-        UUID harvest
+        Double pricePerUnit
 ) {
 }
