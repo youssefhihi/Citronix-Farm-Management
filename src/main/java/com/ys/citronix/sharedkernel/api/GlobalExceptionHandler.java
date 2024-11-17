@@ -1,11 +1,13 @@
 package com.ys.citronix.sharedkernel.api;
 
+import com.ys.citronix.sharedkernel.domain.exception.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -56,15 +58,6 @@ public class GlobalExceptionHandler {
 
 
     /**
-     * Handles exceptions when an entity is not found in the database.
-     * For example, attempting to fetch a record by ID that does not exist.
-     */
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
-
-    /**
      * Handles exceptions when an illegal argument is passed to a method.
      * For example, passing a null or invalid value where a valid value is required.
      */
@@ -92,12 +85,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(message);
     }
 
-    /**
-     * Handles any other exceptions that are not explicitly caught by specific handlers.
-     * This acts as a fallback for unexpected or unknown exceptions.
-     */
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleAllExceptions(Exception ex) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred: " + ex.getMessage());
+
+
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found Error : " + ex.getMessage());
     }
 }

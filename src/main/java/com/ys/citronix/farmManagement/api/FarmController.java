@@ -50,7 +50,7 @@ public class FarmController {
         return new ResponseEntity<>(apiResponse, HttpStatus.ACCEPTED);
     }
 
-    @DeleteMapping("{farmId}")
+    @DeleteMapping("/{farmId}")
     public ResponseEntity<String> deleteFarm(@PathVariable String farmId) {
         service.deleteFarm(UUID.fromString(farmId));
         return new ResponseEntity<>("Farm Deleted Successfully", HttpStatus.OK);

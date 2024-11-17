@@ -6,13 +6,11 @@ import com.ys.citronix.farmManagement.application.dto.response.FarmResponseDto;
 import com.ys.citronix.farmManagement.application.mapper.FarmMapper;
 import com.ys.citronix.farmManagement.domain.model.Farm;
 import com.ys.citronix.farmManagement.domain.service.FarmService;
-import com.ys.citronix.farmManagement.domain.valueObject.FarmId;
 import com.ys.citronix.farmManagement.infrastructure.repository.FarmRepository;
 import com.ys.citronix.sharedkernel.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,12 +41,11 @@ public class FarmDomainService implements FarmService {
     }
 
     @Override
-    public Boolean deleteFarm(UUID farmId) {
+    public void deleteFarm(UUID farmId) {
         if (!repository.existsById(farmId)){
             throw new NotFoundException("Farm", farmId);
         }
         repository.deleteById(farmId);
-        return true;
     }
 
 }
