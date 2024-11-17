@@ -7,7 +7,10 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,5 +35,8 @@ public class Field {
     private Farm farm;
 
     @OneToMany(mappedBy = "field")
-    private List<Tree> trees;
+    private List<Tree> trees = new ArrayList<>();
+
+    @CreatedDate
+    private LocalDateTime createdDate;
 }

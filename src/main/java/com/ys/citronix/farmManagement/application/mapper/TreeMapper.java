@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface TreeMapper {
+    @Mapping(target = "createdDate" ,expression = "java(java.time.LocalDateTime.now())")
     Tree toEntity(TreeRequestDto treeRequestDto);
     @Mapping(target = "field", expression = "java(tree.getField().getName())")
     TreeResponseDto toDto(Tree tree);

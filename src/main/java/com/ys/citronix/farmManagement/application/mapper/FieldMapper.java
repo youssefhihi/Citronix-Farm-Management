@@ -8,7 +8,11 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel="Spring")
 public interface FieldMapper {
+    @Mapping(target = "createdDate" ,expression = "java(java.time.LocalDateTime.now())")
     Field toEntity(FieldRequestDto fieldRequestDto);
     @Mapping(target = "farm", expression = "java(field.getFarm().getName())")
     FieldResponseDto toDto(Field field);
+    @Mapping(target = "farm", ignore = true)
+    Field toEntity(FieldResponseDto fieldResponseDto);
+
 }

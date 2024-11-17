@@ -1,11 +1,9 @@
 package com.ys.citronix.farmManagement.api;
 
-import com.ys.citronix.farmManagement.application.FarmApplicationService;
+import com.ys.citronix.farmManagement.application.service.FarmApplicationService;
 import com.ys.citronix.farmManagement.application.dto.request.FieldRequestDto;
 import com.ys.citronix.farmManagement.application.dto.response.FarmResponseDto;
 import com.ys.citronix.farmManagement.application.dto.response.FieldResponseDto;
-import com.ys.citronix.farmManagement.domain.model.Farm;
-import com.ys.citronix.farmManagement.domain.service.FarmService;
 import com.ys.citronix.farmManagement.domain.service.FieldService;
 import com.ys.citronix.sharedkernel.api.ApiResponse;
 import jakarta.validation.Valid;

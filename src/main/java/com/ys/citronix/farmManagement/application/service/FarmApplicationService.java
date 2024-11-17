@@ -1,4 +1,4 @@
-package com.ys.citronix.farmManagement.application;
+package com.ys.citronix.farmManagement.application.service;
 
 import com.ys.citronix.farmManagement.application.dto.response.FarmResponseDto;
 

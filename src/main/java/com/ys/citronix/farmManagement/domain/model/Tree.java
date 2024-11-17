@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -29,6 +30,9 @@ public class Tree {
     @ManyToOne
     @JoinColumn(name = "field_id")
     private Field field;
+
+    @CreatedDate
+    private LocalDateTime createdDate;
 
 
 }
