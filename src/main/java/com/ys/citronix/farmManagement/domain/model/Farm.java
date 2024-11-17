@@ -38,7 +38,7 @@ public class Farm {
     @NotNull(message = "date create of farm is required")
     private LocalDateTime createdDateTime;
 
-    @OneToMany(mappedBy = "farm", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
     private List<Field> fields = new ArrayList<>();
 
     @CreatedDate

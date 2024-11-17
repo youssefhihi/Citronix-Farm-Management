@@ -14,5 +14,6 @@ public interface FarmMapper {
     @Mapping(target = "createdDate" ,expression = "java(java.time.LocalDateTime.now())")
     Farm toEntity(FarmRequestDto farmRequestDto);
     Farm toEntity(FarmRequestUpdateDto farmRequestUpdateDto);
+    Farm toEntity(FarmResponseDto farmRequestDto);
     FarmResponseDto toDto(Farm farm);
 }

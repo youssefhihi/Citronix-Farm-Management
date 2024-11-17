@@ -12,7 +12,6 @@ public record FarmResponseDto (
         String name,
         String location,
         Double area,
-        LocalDateTime createdDateTime,
-        List<Field>fields
+        LocalDateTime createdDateTime
 ){
 }

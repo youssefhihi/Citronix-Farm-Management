@@ -10,7 +10,6 @@ public record FieldResponseDto(
         UUID id,
         String name,
         Double area,
-        Farm farm,
-        List<Tree>trees
+        String farm
 ) {
 }

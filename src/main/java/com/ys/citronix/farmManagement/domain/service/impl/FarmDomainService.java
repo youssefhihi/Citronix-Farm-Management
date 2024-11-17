@@ -1,5 +1,6 @@
 package com.ys.citronix.farmManagement.domain.service.impl;
 
+import com.ys.citronix.farmManagement.application.FarmApplicationService;
 import com.ys.citronix.farmManagement.application.dto.request.FarmRequestDto;
 import com.ys.citronix.farmManagement.application.dto.request.FarmRequestUpdateDto;
 import com.ys.citronix.farmManagement.application.dto.response.FarmResponseDto;
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class FarmDomainService implements FarmService {
+public class FarmDomainService implements FarmService , FarmApplicationService {
     private final FarmRepository repository;
     private final FarmMapper mapper;
 
@@ -46,6 +47,12 @@ public class FarmDomainService implements FarmService {
             throw new NotFoundException("Farm", farmId);
         }
         repository.deleteById(farmId);
+    }
+
+    @Override
+    public FarmResponseDto findFarmById(UUID id) {
+        Farm farm = repository.findById(id).orElseThrow(() -> new NotFoundException("Farm", id));
+        return mapper.toDto(farm);
     }
 
 }
