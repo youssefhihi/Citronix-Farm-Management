@@ -1,5 +1,6 @@
 package com.ys.citronix.sharedkernel.api;
 
+import com.ys.citronix.farmManagement.domain.exception.FieldCreationException;
 import com.ys.citronix.sharedkernel.domain.exception.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
@@ -89,7 +90,12 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<Object> handleNotFoundException(NotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found Error : " + ex.getMessage());
+    public ResponseEntity<Object> handleNotFoundException(NotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Not found Error : " + e.getMessage());
+    }
+
+    @ExceptionHandler(FieldCreationException.class)
+    public ResponseEntity<Object> handleNotFoundException(FieldCreationException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Field Creation Error : " + e.getMessage());
     }
 }

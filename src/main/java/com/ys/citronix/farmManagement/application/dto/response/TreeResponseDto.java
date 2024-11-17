@@ -10,6 +10,6 @@ public record TreeResponseDto (
         UUID id,
         LocalDateTime plantingDate,
         Integer age,
-        Field field
+        String field
 ){
 }
