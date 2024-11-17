@@ -8,14 +8,7 @@ import java.util.UUID;
 
 public record TreeRequestDto (
         @NotNull(message = "planting date of tree is required")
-        LocalDateTime plantingDate,
-
-        @Positive(message = "tree age must greater than zero")
-        Integer age,
-
-        @NotNull
-        UUID fieldId
-
+        LocalDateTime plantingDate
 ){
     public TreeRequestDto{
         if(plantingDate.isAfter(LocalDateTime.now())){

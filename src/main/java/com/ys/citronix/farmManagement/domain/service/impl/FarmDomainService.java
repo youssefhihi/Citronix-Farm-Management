@@ -1,6 +1,6 @@
 package com.ys.citronix.farmManagement.domain.service.impl;
 
-import com.ys.citronix.farmManagement.application.FarmApplicationService;
+import com.ys.citronix.farmManagement.application.service.FarmApplicationService;
 import com.ys.citronix.farmManagement.application.dto.request.FarmRequestDto;
 import com.ys.citronix.farmManagement.application.dto.request.FarmRequestUpdateDto;
 import com.ys.citronix.farmManagement.application.dto.response.FarmResponseDto;
