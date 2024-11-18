@@ -11,5 +11,9 @@ public interface TreeMapper {
     @Mapping(target = "createdDate" ,expression = "java(java.time.LocalDateTime.now())")
     Tree toEntity(TreeRequestDto treeRequestDto);
     @Mapping(target = "field", expression = "java(tree.getField().getName())")
+    @Mapping(target = "age", expression = "java(tree.getAge())")
+    @Mapping(target = "ProductivityPerYear",expression = "java(tree.getAnnualProductivity())")
     TreeResponseDto toDto(Tree tree);
+    @Mapping(target = "field", ignore = true)
+    Tree toEntity(TreeResponseDto treeResponseDto);
 }

@@ -1,12 +1,60 @@
 package com.ys.citronix.harvestManagement.domain.service.impl;
 
+import com.ys.citronix.farmManagement.application.dto.response.FieldResponseDto;
+import com.ys.citronix.farmManagement.application.dto.response.TreeResponseDto;
+import com.ys.citronix.farmManagement.application.mapper.FieldMapper;
+import com.ys.citronix.farmManagement.application.service.TreeApplicationService;
+import com.ys.citronix.harvestManagement.application.dto.request.HarvestRequestDto;
+import com.ys.citronix.harvestManagement.application.dto.response.HarvestResponseDto;
+import com.ys.citronix.harvestManagement.application.mapper.HarvestMapper;
+import com.ys.citronix.harvestManagement.application.service.HarvestDetailsApplicationService;
+import com.ys.citronix.harvestManagement.domain.events.HarvestCreatedEvent;
+import com.ys.citronix.harvestManagement.domain.exception.HarvestCreationException;
+import com.ys.citronix.harvestManagement.domain.model.Harvest;
 import com.ys.citronix.harvestManagement.domain.service.HarvestService;
 import com.ys.citronix.harvestManagement.infrastructure.repository.HarvestRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class HarvestDomainService implements HarvestService {
-    private final HarvestRepository repositoryepository;
+    private final HarvestRepository repository;
+    private final HarvestMapper mapper;
+    private final HarvestDetailsApplicationService harvestDetailsService;
+    private final TreeApplicationService treeService;
+    private final FieldMapper fieldMapper;
+    private final ApplicationEventPublisher eventPublisher;
+
+
+    @Override
+    public HarvestResponseDto createHarvest(FieldResponseDto field, HarvestRequestDto harvestRequestDto) {
+        if(repository.existsByFieldAndSeason(fieldMapper.toEntity(field), harvestRequestDto.season())){
+            throw new HarvestCreationException("A harvest already exists for this field in the same season.");
+        }
+
+        List<TreeResponseDto> trees = treeService.findAllTreesByIds(harvestRequestDto.treeId());
+
+        if (trees.size() != harvestRequestDto.treeId().size()) {
+            throw new HarvestCreationException("One or more Tree IDs were not found.");
+        }
+
+        trees.stream()
+                .filter(t -> harvestDetailsService.existsTreeInSeason(t.id(), harvestRequestDto.season()))
+                .findFirst()
+                .ifPresent(t -> {
+                    throw new IllegalArgumentException("Tree " + t.id() + " has already been harvested this season.");
+                });
+
+        Harvest harvest = mapper.toEntity(harvestRequestDto);
+        harvest.setField(fieldMapper.toEntity(field));
+        harvest.setTotalQuantity(trees.stream().mapToDouble(TreeResponseDto::ProductivityPerYear).sum());
+        Harvest storedHarvest =  repository.save(harvest);
+        eventPublisher.publishEvent(new HarvestCreatedEvent(storedHarvest, trees));
+
+        return mapper.toDto(storedHarvest);
+    }
 }
