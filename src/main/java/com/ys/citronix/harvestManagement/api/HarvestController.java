@@ -3,6 +3,7 @@ package com.ys.citronix.harvestManagement.api;
 import com.ys.citronix.farmManagement.application.dto.response.FieldResponseDto;
 import com.ys.citronix.farmManagement.application.service.FieldApplicationService;
 import com.ys.citronix.harvestManagement.application.dto.request.HarvestRequestDto;
+import com.ys.citronix.harvestManagement.application.dto.response.HarvestDetailsResponseDto;
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestResponseDto;
 import com.ys.citronix.harvestManagement.domain.service.HarvestService;
 import com.ys.citronix.sharedkernel.api.ApiResponse;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -21,14 +23,11 @@ import java.util.UUID;
 @Validated
 public class HarvestController {
     private final HarvestService service;
-    private final FieldApplicationService fieldService;
 
-    @PostMapping("/{fieldId}")
+    @PostMapping
     public ResponseEntity<ApiResponse<HarvestResponseDto>> createHarvest(
-            @PathVariable String fieldId,
             @RequestBody @Valid HarvestRequestDto harvestRequestDto){
-        FieldResponseDto field =  fieldService.findFieldById(UUID.fromString(fieldId));
-        HarvestResponseDto responseDto = service.createHarvest(field, harvestRequestDto);
+        HarvestResponseDto responseDto = service.createHarvest(harvestRequestDto);
         ApiResponse<HarvestResponseDto> response = new ApiResponse<>(
                 responseDto,
                 "harvest created successfully",
@@ -36,4 +35,6 @@ public class HarvestController {
         );
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+
 }

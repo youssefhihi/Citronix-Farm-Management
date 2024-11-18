@@ -2,8 +2,11 @@ package com.ys.citronix.harvestManagement.domain.service.impl;
 
 import com.ys.citronix.farmManagement.application.dto.response.TreeResponseDto;
 import com.ys.citronix.farmManagement.application.mapper.TreeMapper;
+import com.ys.citronix.farmManagement.domain.model.Field;
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestDetailsResponseDto;
+import com.ys.citronix.harvestManagement.application.dto.response.HarvestResponseDto;
 import com.ys.citronix.harvestManagement.application.mapper.HarvestDetailsMapper;
+import com.ys.citronix.harvestManagement.application.mapper.HarvestMapper;
 import com.ys.citronix.harvestManagement.application.service.HarvestDetailsApplicationService;
 import com.ys.citronix.harvestManagement.domain.enums.Season;
 import com.ys.citronix.harvestManagement.domain.events.HarvestCreatedEvent;
@@ -27,6 +30,7 @@ public class HarvestDetailsDomainService implements HarvestDetailsService, Harve
     private final HarvestDetailsRepository repository;
     private final HarvestDetailsMapper mapper;
     private final TreeMapper treeMapper;
+    private final HarvestMapper harvestMapper;
 
 
     @EventListener
@@ -55,5 +59,19 @@ public class HarvestDetailsDomainService implements HarvestDetailsService, Harve
     @Override
     public Boolean existsTreeInSeason(UUID treeId, Season season) {
         return repository.existsByTree_IdAndHarvest_Season(treeId, season);
+    }
+
+    @Override
+    public Boolean existsByTreeFieldSeasonAndYear(Field field, Season season, Integer year) {
+        List<HarvestDetails> details = repository.findAllByTree_FieldAndHarvest_Season(field, season);
+        return details.stream()
+                .anyMatch(hd -> hd.getHarvest().getHarvestDate().getYear() == year);
+    }
+
+
+    @Override
+    public List<HarvestDetailsResponseDto> getHarvestDetailsByHarvest(HarvestResponseDto harvest) {
+      List<HarvestDetails> harvestDetails =  repository.findAllByHarvest(harvestMapper.toEntity(harvest));
+      return harvestDetails.stream().map(mapper::toDto).collect(Collectors.toList());
     }
 }

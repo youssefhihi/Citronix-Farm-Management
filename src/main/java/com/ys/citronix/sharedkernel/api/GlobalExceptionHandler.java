@@ -2,6 +2,7 @@ package com.ys.citronix.sharedkernel.api;
 
 import com.ys.citronix.farmManagement.domain.exception.FieldCreationException;
 import com.ys.citronix.farmManagement.domain.exception.TreeCreationException;
+import com.ys.citronix.harvestManagement.domain.exception.HarvestCreationException;
 import com.ys.citronix.sharedkernel.domain.exception.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
@@ -103,5 +104,9 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TreeCreationException.class)
     public ResponseEntity<Object> handleNotFoundException(TreeCreationException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tree Creation Error : " + e.getMessage());
+    }
+    @ExceptionHandler(HarvestCreationException.class)
+    public ResponseEntity<Object> handleNotFoundException(HarvestCreationException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Harvest Creation Error : " + e.getMessage());
     }
 }

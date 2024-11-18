@@ -1,5 +1,6 @@
 package com.ys.citronix.farmManagement.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ys.citronix.farmManagement.domain.valueObject.FarmId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -39,6 +40,7 @@ public class Farm {
     private LocalDateTime createdDateTime;
 
     @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Field> fields = new ArrayList<>();
 
     @CreatedDate
