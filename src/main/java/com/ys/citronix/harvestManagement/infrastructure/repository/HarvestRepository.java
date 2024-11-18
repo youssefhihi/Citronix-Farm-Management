@@ -9,6 +9,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 public interface HarvestRepository extends JpaRepository<Harvest, UUID> {
-
-    Boolean existsByFieldAndSeason(Field field, @NotNull Season season);
 }

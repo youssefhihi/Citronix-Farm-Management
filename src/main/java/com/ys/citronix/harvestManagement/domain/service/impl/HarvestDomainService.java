@@ -34,16 +34,30 @@ public class HarvestDomainService implements HarvestService, HarvestApplicationS
 
 
     @Override
-    public HarvestResponseDto createHarvest(FieldResponseDto field, HarvestRequestDto harvestRequestDto) {
-        if(repository.existsByFieldAndSeason(fieldMapper.toEntity(field), harvestRequestDto.season())){
-            throw new HarvestCreationException("A harvest already exists for this field in the same season.");
-        }
+    public HarvestResponseDto createHarvest(HarvestRequestDto harvestRequestDto) {
+
 
         List<TreeResponseDto> trees = treeService.findAllTreesByIds(harvestRequestDto.treeId());
 
         if (trees.size() != harvestRequestDto.treeId().size()) {
             throw new HarvestCreationException("One or more Tree IDs were not found.");
         }
+
+       boolean allTreesSameField = trees.stream()
+               .allMatch(tree -> tree.field().equals(trees.get(0).field()));
+
+        if(!allTreesSameField) {
+            throw new HarvestCreationException("the trees doesn't have the same field");
+        }
+
+        if(harvestDetailsService.existsByTreeFieldSeasonAndYear(
+                fieldMapper.toEntity(trees.get(0).field()),
+                harvestRequestDto.season(),
+                harvestRequestDto.harvestDate().getYear())
+        ){
+            throw new HarvestCreationException("A harvest already exists for this field in the same season.");
+        }
+
 
         trees.stream()
                 .filter(t -> harvestDetailsService.existsTreeInSeason(t.id(), harvestRequestDto.season()))
@@ -53,7 +67,6 @@ public class HarvestDomainService implements HarvestService, HarvestApplicationS
                 });
 
         Harvest harvest = mapper.toEntity(harvestRequestDto);
-        harvest.setField(fieldMapper.toEntity(field));
         harvest.setTotalQuantity(trees.stream().mapToDouble(TreeResponseDto::ProductivityPerYear).sum());
         Harvest storedHarvest =  repository.save(harvest);
         eventPublisher.publishEvent(new HarvestCreatedEvent(storedHarvest, trees));

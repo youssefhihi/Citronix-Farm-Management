@@ -1,8 +1,6 @@
 package com.ys.citronix.farmManagement.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ys.citronix.farmManagement.domain.valueObject.FieldId;
-import com.ys.citronix.harvestManagement.domain.model.Harvest;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
@@ -40,9 +38,7 @@ public class Field {
     @JsonIgnore
     private List<Tree> trees = new ArrayList<>();
 
-    @OneToMany(mappedBy = "field")
-    @JsonIgnore
-    private List<Harvest> harvests = new ArrayList<>();
+
 
     @CreatedDate
     private LocalDateTime createdDate;

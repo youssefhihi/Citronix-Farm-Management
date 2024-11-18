@@ -2,6 +2,7 @@ package com.ys.citronix.harvestManagement.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ys.citronix.farmManagement.domain.model.Field;
+import com.ys.citronix.farmManagement.domain.model.Tree;
 import com.ys.citronix.harvestManagement.domain.enums.Season;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -31,11 +32,6 @@ public class Harvest {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Season season;
-
-    @ManyToOne
-    @JoinColumn(name = "field_id")
-    @JsonIgnore
-    private Field field;
 
     @OneToMany(mappedBy = "harvest", cascade = CascadeType.ALL)
     @JsonIgnore

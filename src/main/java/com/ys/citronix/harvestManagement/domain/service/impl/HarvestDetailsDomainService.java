@@ -2,6 +2,7 @@ package com.ys.citronix.harvestManagement.domain.service.impl;
 
 import com.ys.citronix.farmManagement.application.dto.response.TreeResponseDto;
 import com.ys.citronix.farmManagement.application.mapper.TreeMapper;
+import com.ys.citronix.farmManagement.domain.model.Field;
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestDetailsResponseDto;
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestResponseDto;
 import com.ys.citronix.harvestManagement.application.mapper.HarvestDetailsMapper;
@@ -59,6 +60,14 @@ public class HarvestDetailsDomainService implements HarvestDetailsService, Harve
     public Boolean existsTreeInSeason(UUID treeId, Season season) {
         return repository.existsByTree_IdAndHarvest_Season(treeId, season);
     }
+
+    @Override
+    public Boolean existsByTreeFieldSeasonAndYear(Field field, Season season, Integer year) {
+        List<HarvestDetails> details = repository.findAllByTree_FieldAndHarvest_Season(field, season);
+        return details.stream()
+                .anyMatch(hd -> hd.getHarvest().getHarvestDate().getYear() == year);
+    }
+
 
     @Override
     public List<HarvestDetailsResponseDto> getHarvestDetailsByHarvest(HarvestResponseDto harvest) {

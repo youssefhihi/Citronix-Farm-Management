@@ -6,5 +6,5 @@ import com.ys.citronix.harvestManagement.application.dto.request.HarvestRequestD
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestResponseDto;
 
 public interface HarvestService {
-    HarvestResponseDto createHarvest(FieldResponseDto field, HarvestRequestDto harvestRequestDto);
+    HarvestResponseDto createHarvest(HarvestRequestDto harvestRequestDto);
 }

@@ -23,14 +23,11 @@ import java.util.UUID;
 @Validated
 public class HarvestController {
     private final HarvestService service;
-    private final FieldApplicationService fieldService;
 
-    @PostMapping("/{fieldId}")
+    @PostMapping
     public ResponseEntity<ApiResponse<HarvestResponseDto>> createHarvest(
-            @PathVariable String fieldId,
             @RequestBody @Valid HarvestRequestDto harvestRequestDto){
-        FieldResponseDto field =  fieldService.findFieldById(UUID.fromString(fieldId));
-        HarvestResponseDto responseDto = service.createHarvest(field, harvestRequestDto);
+        HarvestResponseDto responseDto = service.createHarvest(harvestRequestDto);
         ApiResponse<HarvestResponseDto> response = new ApiResponse<>(
                 responseDto,
                 "harvest created successfully",
