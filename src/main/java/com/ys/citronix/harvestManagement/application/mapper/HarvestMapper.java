@@ -11,4 +11,5 @@ public interface HarvestMapper {
     @Mapping(target = "createdDate" ,expression = "java(java.time.LocalDateTime.now())")
     Harvest toEntity(HarvestRequestDto harvestRequestDto);
     HarvestResponseDto toDto(Harvest harvest);
+    Harvest toEntity(HarvestResponseDto harvestResponseDto);
 }

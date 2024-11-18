@@ -7,21 +7,24 @@ import com.ys.citronix.farmManagement.application.service.TreeApplicationService
 import com.ys.citronix.harvestManagement.application.dto.request.HarvestRequestDto;
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestResponseDto;
 import com.ys.citronix.harvestManagement.application.mapper.HarvestMapper;
+import com.ys.citronix.harvestManagement.application.service.HarvestApplicationService;
 import com.ys.citronix.harvestManagement.application.service.HarvestDetailsApplicationService;
 import com.ys.citronix.harvestManagement.domain.events.HarvestCreatedEvent;
 import com.ys.citronix.harvestManagement.domain.exception.HarvestCreationException;
 import com.ys.citronix.harvestManagement.domain.model.Harvest;
 import com.ys.citronix.harvestManagement.domain.service.HarvestService;
 import com.ys.citronix.harvestManagement.infrastructure.repository.HarvestRepository;
+import com.ys.citronix.sharedkernel.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class HarvestDomainService implements HarvestService {
+public class HarvestDomainService implements HarvestService, HarvestApplicationService {
     private final HarvestRepository repository;
     private final HarvestMapper mapper;
     private final HarvestDetailsApplicationService harvestDetailsService;
@@ -57,4 +60,11 @@ public class HarvestDomainService implements HarvestService {
 
         return mapper.toDto(storedHarvest);
     }
+
+    @Override
+    public HarvestResponseDto findHarvestById(UUID harvestId){
+        Harvest harvest = repository.findById(harvestId).orElseThrow(() -> new NotFoundException("harvest", harvestId));
+        return mapper.toDto(harvest);
+    }
+
 }
