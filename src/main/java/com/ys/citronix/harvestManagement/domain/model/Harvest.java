@@ -1,5 +1,6 @@
 package com.ys.citronix.harvestManagement.domain.model;
 
+import com.ys.citronix.farmManagement.domain.model.Field;
 import com.ys.citronix.harvestManagement.domain.enums.Season;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -29,6 +30,10 @@ public class Harvest {
     @NotNull
     @Enumerated(EnumType.STRING)
     private Season season;
+
+    @ManyToOne
+    @JoinColumn(name = "field_id")
+    private Field field;
 
     @OneToMany(mappedBy = "harvest", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HarvestDetails> harvestDetails;
