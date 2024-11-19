@@ -1,5 +1,6 @@
 package com.ys.citronix.harvestManagement.infrastructure.repository;
 
+import com.ys.citronix.farmManagement.domain.model.Farm;
 import com.ys.citronix.farmManagement.domain.model.Field;
 import com.ys.citronix.harvestManagement.domain.enums.Season;
 import com.ys.citronix.harvestManagement.domain.model.Harvest;
@@ -12,6 +13,6 @@ import java.util.UUID;
 
 public interface HarvestDetailsRepository extends JpaRepository<HarvestDetails, UUID> {
     Boolean existsByTree_IdAndHarvest_Season(UUID treeId, Season season);
-    List<HarvestDetails> findAllByTree_FieldAndHarvest_Season(Field field, Season season);
+    List<HarvestDetails> findAllByTree_Field_FarmAndHarvest_Season(Farm farm, Season season);
     List<HarvestDetails> findAllByHarvest(Harvest harvest);
 }
