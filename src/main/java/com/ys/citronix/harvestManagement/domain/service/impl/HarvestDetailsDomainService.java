@@ -3,6 +3,8 @@ package com.ys.citronix.harvestManagement.domain.service.impl;
 import com.ys.citronix.farmManagement.application.dto.response.TreeResponseDto;
 import com.ys.citronix.farmManagement.application.mapper.TreeMapper;
 import com.ys.citronix.farmManagement.domain.model.Field;
+import com.ys.citronix.harvestManagement.application.dto.request.HarvestDetailsRequestDto;
+import com.ys.citronix.harvestManagement.application.dto.request.HarvestRequestDto;
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestDetailsResponseDto;
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestResponseDto;
 import com.ys.citronix.harvestManagement.application.mapper.HarvestDetailsMapper;
@@ -33,18 +35,18 @@ public class HarvestDetailsDomainService implements HarvestDetailsService, Harve
     private final HarvestMapper harvestMapper;
 
 
-    @EventListener
-    public List<HarvestDetailsResponseDto> createHarvestDetails(HarvestCreatedEvent event) {
-        Harvest harvest = event.harvest();
-        List<TreeResponseDto> trees = event.trees();
+    @Override
+    public List<HarvestDetailsResponseDto> createHarvestDetails(HarvestDetailsRequestDto harvestDetailsRequestDto) {
+        HarvestResponseDto harvest = harvestDetailsRequestDto.harvest();
+        List<TreeResponseDto> trees = harvestDetailsRequestDto.trees();
 
         List<HarvestDetails> harvestDetailsList = trees.stream()
                 .map(tree -> {
                     HarvestDetails harvestDetail = new HarvestDetails();
-                    harvestDetail.setHarvest(harvest);
+                    harvestDetail.setHarvest(harvestMapper.toEntity(harvest));
                     harvestDetail.setTree(treeMapper.toEntity(tree));
                     harvestDetail.setQuantity(tree.ProductivityPerYear());
-                    harvest.setCreatedDate(LocalDateTime.now());
+                    harvestDetail.setCreatedDate(LocalDateTime.now());
                     return harvestDetail;
                 })
                 .collect(Collectors.toList());

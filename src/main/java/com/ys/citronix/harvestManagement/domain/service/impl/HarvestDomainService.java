@@ -69,7 +69,7 @@ public class HarvestDomainService implements HarvestService, HarvestApplicationS
         Harvest harvest = mapper.toEntity(harvestRequestDto);
         harvest.setTotalQuantity(trees.stream().mapToDouble(TreeResponseDto::ProductivityPerYear).sum());
         Harvest storedHarvest =  repository.save(harvest);
-        eventPublisher.publishEvent(new HarvestCreatedEvent(storedHarvest, trees));
+        eventPublisher.publishEvent(new HarvestCreatedEvent(mapper.toDto(storedHarvest), trees));
 
         return mapper.toDto(storedHarvest);
     }

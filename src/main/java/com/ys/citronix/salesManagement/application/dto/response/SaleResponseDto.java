@@ -1,5 +1,6 @@
 package com.ys.citronix.salesManagement.application.dto.response;
 
+import com.ys.citronix.harvestManagement.application.dto.response.HarvestResponseDto;
 import com.ys.citronix.harvestManagement.domain.model.Harvest;
 
 import java.time.LocalDateTime;
@@ -11,6 +12,7 @@ public record SaleResponseDto(
         String clientName,
         Double quantitySold,
         Double pricePerUnit,
-        Harvest harvest
+        Double revenue,
+        HarvestResponseDto harvest
 ) {
 }

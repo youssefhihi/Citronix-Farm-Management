@@ -1,7 +1,6 @@
 package com.ys.citronix.harvestManagement.application.dto.response;
 
 import com.ys.citronix.harvestManagement.domain.enums.Season;
-import com.ys.citronix.harvestManagement.domain.valueObject.HarvestId;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

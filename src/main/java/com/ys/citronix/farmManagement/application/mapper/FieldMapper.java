@@ -14,5 +14,4 @@ public interface FieldMapper {
     FieldResponseDto toDto(Field field);
     @Mapping(target = "farm", ignore = true)
     Field toEntity(FieldResponseDto fieldResponseDto);
-
 }
