@@ -1,6 +1,5 @@
 package com.ys.citronix.harvestManagement.domain.service.impl;
 
-import com.ys.citronix.farmManagement.application.dto.response.FieldResponseDto;
 import com.ys.citronix.farmManagement.application.dto.response.TreeResponseDto;
 import com.ys.citronix.farmManagement.application.mapper.FarmMapper;
 import com.ys.citronix.farmManagement.application.mapper.FieldMapper;

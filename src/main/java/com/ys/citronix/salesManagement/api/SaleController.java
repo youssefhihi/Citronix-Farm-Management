@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -36,5 +37,12 @@ public class SaleController {
                 HttpStatus.CREATED
         );
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{harvestId}")
+    public ResponseEntity<List<SaleResponseDto>> getSale(@PathVariable String harvestId) {
+        HarvestResponseDto harvest = harvestService.findHarvestById(UUID.fromString(harvestId));
+        List<SaleResponseDto> response = service.getAllSalesByHarvest(harvest);
+        return new ResponseEntity<>(response,HttpStatus.OK);
     }
 }

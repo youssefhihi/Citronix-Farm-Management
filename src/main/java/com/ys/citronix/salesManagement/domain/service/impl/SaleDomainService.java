@@ -41,4 +41,11 @@ public class SaleDomainService implements SaleService {
         return mapper.toDto(repository.save(sale));
     }
 
+
+    @Override
+    public List<SaleResponseDto> getAllSalesByHarvest(HarvestResponseDto harvest) {
+        List<Sale> sales = repository.getAllByHarvest_Id(harvest.id());
+        return sales.stream().map(mapper::toDto).toList();
+    }
+
 }
