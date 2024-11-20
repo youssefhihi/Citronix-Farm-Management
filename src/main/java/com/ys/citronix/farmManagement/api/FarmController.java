@@ -30,7 +30,7 @@ public class FarmController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<FarmResponseDto>> getFarmByQuery(@Valid @NotBlank @RequestParam(required = false) String query) {
+    public ResponseEntity<List<FarmResponseDto>> getFarmByQuery(@Valid @NotBlank @RequestParam String query) {
         List<FarmResponseDto> farms = service.findFarmMultiCriteriaSearch(query);
         return new ResponseEntity<>(farms, HttpStatus.OK);
     }
