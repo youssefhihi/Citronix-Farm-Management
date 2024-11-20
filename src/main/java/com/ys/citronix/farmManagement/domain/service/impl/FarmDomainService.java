@@ -8,6 +8,7 @@ import com.ys.citronix.farmManagement.application.mapper.FarmMapper;
 import com.ys.citronix.farmManagement.domain.model.Farm;
 import com.ys.citronix.farmManagement.domain.service.FarmService;
 import com.ys.citronix.farmManagement.infrastructure.repository.FarmRepository;
+import com.ys.citronix.farmManagement.infrastructure.repository.FarmSearchRepository;
 import com.ys.citronix.sharedkernel.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FarmDomainService implements FarmService , FarmApplicationService {
     private final FarmRepository repository;
+    private final FarmSearchRepository farmSearchRepository;
     private final FarmMapper mapper;
 
     @Override
@@ -53,6 +55,12 @@ public class FarmDomainService implements FarmService , FarmApplicationService {
     public FarmResponseDto findFarmById(UUID id) {
         Farm farm = repository.findById(id).orElseThrow(() -> new NotFoundException("Farm", id));
         return mapper.toDto(farm);
+    }
+
+    @Override
+    public List<FarmResponseDto>  findFarmMultiCriteriaSearch(String query){
+        List<Farm> farms = farmSearchRepository.findFarmMultiCriteriaSearch(query);
+        return farms.stream().map(mapper::toDto).toList();
     }
 
 }

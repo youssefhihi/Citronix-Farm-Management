@@ -13,4 +13,5 @@ public interface FarmService {
     FarmResponseDto createFarm(FarmRequestDto farmRequestDto);
     FarmResponseDto updateFarm(FarmRequestUpdateDto farmRequestDto);
     void deleteFarm(UUID farmId);
+    List<FarmResponseDto>  findFarmMultiCriteriaSearch(String query);
 }
