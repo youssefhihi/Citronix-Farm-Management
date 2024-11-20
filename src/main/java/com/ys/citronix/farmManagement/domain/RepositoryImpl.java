@@ -19,14 +19,20 @@ public class RepositoryImpl implements FarmSearchRepository {
     private final EntityManager em;
 
     @Override
-    public List<Farm> findFarmMultiCriteriaSearch(String query){
+    public List<Farm> findFarmMultiCriteriaSearch(String query) {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Farm> cq = cb.createQuery(Farm.class);
         Root<Farm> farm = cq.from(Farm.class);
-        Predicate name = cb.equal(farm.get("name"), query);
-        Predicate location = cb.equal(farm.get("location"), query);
-        Predicate area = cb.equal(farm.get("area"), query);
-        cq.where(name, location, area);
+        Predicate namePredicate = cb.like(cb.lower(farm.get("name")), "%" + query.toLowerCase() + "%");
+        Predicate locationPredicate = cb.like(cb.lower(farm.get("location")), "%" + query.toLowerCase() + "%");
+        Predicate areaPredicate;
+        try {
+            Double areaValue = Double.parseDouble(query);
+            areaPredicate = cb.equal(farm.get("area"), areaValue);
+        } catch (NumberFormatException e) {
+            areaPredicate = cb.disjunction();
+        }
+        cq.where(cb.or(namePredicate, locationPredicate, areaPredicate));
         TypedQuery<Farm> q = em.createQuery(cq);
         return q.getResultList();
     }

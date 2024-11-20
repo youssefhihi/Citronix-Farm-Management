@@ -6,6 +6,7 @@ import com.ys.citronix.farmManagement.application.dto.response.FarmResponseDto;
 import com.ys.citronix.farmManagement.domain.service.FarmService;
 import com.ys.citronix.sharedkernel.api.ApiResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,12 @@ public class FarmController {
     @GetMapping
     public ResponseEntity<List<FarmResponseDto>> getAllFarms() {
         List<FarmResponseDto> farms = service.getAllFarms();
+        return new ResponseEntity<>(farms, HttpStatus.OK);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<FarmResponseDto>> getFarmByQuery(@Valid @NotBlank @RequestParam(required = false) String query) {
+        List<FarmResponseDto> farms = service.findFarmMultiCriteriaSearch(query);
         return new ResponseEntity<>(farms, HttpStatus.OK);
     }
 
