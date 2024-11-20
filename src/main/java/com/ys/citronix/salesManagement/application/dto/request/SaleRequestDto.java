@@ -1,7 +1,6 @@
 package com.ys.citronix.salesManagement.application.dto.request;
 
 
-import com.ys.citronix.harvestManagement.domain.valueObject.HarvestId;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 

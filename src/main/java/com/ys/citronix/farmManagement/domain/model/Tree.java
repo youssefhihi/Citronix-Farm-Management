@@ -30,7 +30,6 @@ public class Tree {
     @ManyToOne
     @JoinColumn(name = "field_id")
     private Field field;
-
     @CreatedDate
     private LocalDateTime createdDate;
 

@@ -1,7 +1,7 @@
 package com.ys.citronix.harvestManagement.domain.service.impl;
 
-import com.ys.citronix.farmManagement.application.dto.response.FieldResponseDto;
 import com.ys.citronix.farmManagement.application.dto.response.TreeResponseDto;
+import com.ys.citronix.farmManagement.application.mapper.FarmMapper;
 import com.ys.citronix.farmManagement.application.mapper.FieldMapper;
 import com.ys.citronix.farmManagement.application.service.TreeApplicationService;
 import com.ys.citronix.harvestManagement.application.dto.request.HarvestRequestDto;
@@ -31,6 +31,7 @@ public class HarvestDomainService implements HarvestService, HarvestApplicationS
     private final TreeApplicationService treeService;
     private final FieldMapper fieldMapper;
     private final ApplicationEventPublisher eventPublisher;
+    private final FarmMapper farmMapper;
 
 
     @Override
@@ -51,7 +52,7 @@ public class HarvestDomainService implements HarvestService, HarvestApplicationS
         }
 
         if(harvestDetailsService.existsByTreeFieldSeasonAndYear(
-                fieldMapper.toEntity(trees.get(0).field()),
+                farmMapper.toEntity(trees.get(0).field().farm()),
                 harvestRequestDto.season(),
                 harvestRequestDto.harvestDate().getYear())
         ){
@@ -69,7 +70,7 @@ public class HarvestDomainService implements HarvestService, HarvestApplicationS
         Harvest harvest = mapper.toEntity(harvestRequestDto);
         harvest.setTotalQuantity(trees.stream().mapToDouble(TreeResponseDto::ProductivityPerYear).sum());
         Harvest storedHarvest =  repository.save(harvest);
-        eventPublisher.publishEvent(new HarvestCreatedEvent(storedHarvest, trees));
+        eventPublisher.publishEvent(new HarvestCreatedEvent(mapper.toDto(storedHarvest), trees));
 
         return mapper.toDto(storedHarvest);
     }

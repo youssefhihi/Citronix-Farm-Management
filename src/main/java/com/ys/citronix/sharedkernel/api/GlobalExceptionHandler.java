@@ -3,6 +3,7 @@ package com.ys.citronix.sharedkernel.api;
 import com.ys.citronix.farmManagement.domain.exception.FieldCreationException;
 import com.ys.citronix.farmManagement.domain.exception.TreeCreationException;
 import com.ys.citronix.harvestManagement.domain.exception.HarvestCreationException;
+import com.ys.citronix.salesManagement.domain.exception.SaleCreationException;
 import com.ys.citronix.sharedkernel.domain.exception.NotFoundException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolation;
@@ -98,15 +99,22 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(FieldCreationException.class)
     public ResponseEntity<Object> handleNotFoundException(FieldCreationException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Field Creation Error : " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Field Creation Error : " + e.getMessage());
     }
 
     @ExceptionHandler(TreeCreationException.class)
     public ResponseEntity<Object> handleNotFoundException(TreeCreationException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Tree Creation Error : " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Tree Creation Error : " + e.getMessage());
     }
     @ExceptionHandler(HarvestCreationException.class)
     public ResponseEntity<Object> handleNotFoundException(HarvestCreationException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Harvest Creation Error : " + e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Harvest Creation Error : " + e.getMessage());
     }
+
+    @ExceptionHandler(SaleCreationException.class)
+    public ResponseEntity<Object> handleNotFoundException(SaleCreationException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Sale Creation Error : " + e.getMessage());
+    }
+
+
 }

@@ -7,6 +7,6 @@ public record FieldResponseDto(
         UUID id,
         String name,
         Double area,
-        String farm
+        FarmResponseDto farm
 ) {
 }

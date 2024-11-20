@@ -6,13 +6,12 @@ import com.ys.citronix.farmManagement.domain.model.Field;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel="Spring")
+@Mapper(componentModel="Spring",  uses = FarmMapper.class)
 public interface FieldMapper {
     @Mapping(target = "createdDate" ,expression = "java(java.time.LocalDateTime.now())")
     Field toEntity(FieldRequestDto fieldRequestDto);
-    @Mapping(target = "farm", expression = "java(field.getFarm() != null ? field.getFarm().getName() : null)")
+    @Mapping(target = "farm", source = "farm")
     FieldResponseDto toDto(Field field);
     @Mapping(target = "farm", ignore = true)
     Field toEntity(FieldResponseDto fieldResponseDto);
-
 }
