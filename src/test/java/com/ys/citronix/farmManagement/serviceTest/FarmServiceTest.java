@@ -48,7 +48,6 @@ public class FarmServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Common setup for all tests
         farmId = UUID.randomUUID();
         farm = new Farm();
         farmResponseDto = new FarmResponseDto(farmId, "Test Farm", "Test Location", 15.0, LocalDateTime.now());
@@ -180,6 +179,18 @@ public class FarmServiceTest {
         );
         assertEquals("Farm with id "+ farmId+ " not found", exception.getMessage());
         verify(farmRepository,times(1)).findById(farmId);
+    }
+
+    @Test
+    void searchFarm_success() {
+        when(farmSearchRepository.findFarmMultiCriteriaSearch(farmRequestDto.name())).thenReturn(List.of(farm));
+        when(farmMapper.toDto(farm)).thenReturn(farmResponseDto);
+        List<FarmResponseDto> expectedDtos = List.of(farmResponseDto);
+        List<FarmResponseDto> farms = farmDomainService.findFarmMultiCriteriaSearch(farmRequestDto.name());
+        assertEquals(expectedDtos, farms);
+        verify(farmSearchRepository,times(1)).findFarmMultiCriteriaSearch(farmRequestDto.name());
+        verify(farmMapper,times(1)).toDto(farm);
+
     }
 
 }
