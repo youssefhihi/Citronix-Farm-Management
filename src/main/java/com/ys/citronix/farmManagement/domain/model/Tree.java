@@ -3,6 +3,8 @@ package com.ys.citronix.farmManagement.domain.model;
 import com.ys.citronix.farmManagement.domain.valueObject.TreeId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
@@ -17,6 +19,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
 public class Tree {
 
     @Id
@@ -32,6 +36,8 @@ public class Tree {
     private Field field;
     @CreatedDate
     private LocalDateTime createdDate;
+
+    public Tree() {}
 
     public Integer getAge(){
         return (int) ChronoUnit.YEARS.between(this.getPlantingDate().toLocalDate(), LocalDate.now());

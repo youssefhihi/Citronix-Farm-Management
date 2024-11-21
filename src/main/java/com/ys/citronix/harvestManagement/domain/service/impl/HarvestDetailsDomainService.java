@@ -51,7 +51,7 @@ public class HarvestDetailsDomainService implements HarvestDetailsService, Harve
 
         savedDetails.stream()
                 .map(mapper::toDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
