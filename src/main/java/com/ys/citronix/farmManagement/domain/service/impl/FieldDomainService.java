@@ -1,6 +1,7 @@
 package com.ys.citronix.farmManagement.domain.service.impl;
 
 import com.ys.citronix.farmManagement.application.dto.request.FieldRequestDto;
+import com.ys.citronix.farmManagement.application.dto.request.FieldUpdateRequestDto;
 import com.ys.citronix.farmManagement.application.dto.response.FarmResponseDto;
 import com.ys.citronix.farmManagement.application.dto.response.FieldResponseDto;
 import com.ys.citronix.farmManagement.application.mapper.FarmMapper;
@@ -52,6 +53,23 @@ public class FieldDomainService implements FieldService , FieldApplicationServic
     public List<FieldResponseDto> getAllFieldsByFarmId(FarmResponseDto farm) {
         List<Field> fields = repository.findAllByFarm(farmMapper.toEntity(farm));
         return fields.stream().map(mapper::toDto).toList();
+    }
+
+    @Override
+    public FieldResponseDto updateField(FieldUpdateRequestDto fieldUpdateRequestDto){
+        if(!repository.existsById(fieldUpdateRequestDto.id())){
+            throw new  NotFoundException("Field", fieldUpdateRequestDto.id());
+        }
+        Field field = repository.save(mapper.toEntity(fieldUpdateRequestDto));
+        return mapper.toDto(field);
+    }
+
+    @Override
+    public void deleteFieldById(UUID id){
+        if(!repository.existsById(id)){
+            throw new  NotFoundException("Field", id);
+        }
+        repository.deleteById(id);
     }
 
 

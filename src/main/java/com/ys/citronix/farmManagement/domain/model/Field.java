@@ -2,9 +2,7 @@ package com.ys.citronix.farmManagement.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Positive;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
@@ -28,6 +26,7 @@ public class Field {
     private String name;
 
     @Positive(message = "the farm area must be greater than zero")
+    @Min(1000)
     private Double area;
 
     @ManyToOne
