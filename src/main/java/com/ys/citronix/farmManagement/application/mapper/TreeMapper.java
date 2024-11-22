@@ -1,6 +1,7 @@
 package com.ys.citronix.farmManagement.application.mapper;
 
 import com.ys.citronix.farmManagement.application.dto.request.TreeRequestDto;
+import com.ys.citronix.farmManagement.application.dto.request.TreeUpdateRequestDto;
 import com.ys.citronix.farmManagement.application.dto.response.TreeResponseDto;
 import com.ys.citronix.farmManagement.domain.model.Tree;
 import org.mapstruct.Mapper;
@@ -15,5 +16,9 @@ public interface TreeMapper {
     @Mapping(target = "field", source = "field")
     TreeResponseDto toDto(Tree tree);
     @Mapping(target = "field", source = "field")
+//    @Mapping(target = "ProductivityPerYear", ignore = true)
+//    @Mapping(target = "age", ignore = true)
     Tree toEntity(TreeResponseDto treeResponseDto);
+
+    Tree toEntity(TreeUpdateRequestDto treeUpdateRequestDto);
 }

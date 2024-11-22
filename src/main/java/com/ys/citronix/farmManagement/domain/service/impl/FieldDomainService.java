@@ -8,6 +8,7 @@ import com.ys.citronix.farmManagement.application.mapper.FarmMapper;
 import com.ys.citronix.farmManagement.application.mapper.FieldMapper;
 import com.ys.citronix.farmManagement.application.service.FieldApplicationService;
 import com.ys.citronix.farmManagement.domain.exception.FieldCreationException;
+import com.ys.citronix.farmManagement.domain.model.Farm;
 import com.ys.citronix.farmManagement.domain.model.Field;
 import com.ys.citronix.farmManagement.domain.service.FieldService;
 import com.ys.citronix.farmManagement.infrastructure.repository.FieldRepository;
@@ -54,15 +55,45 @@ public class FieldDomainService implements FieldService , FieldApplicationServic
         List<Field> fields = repository.findAllByFarm(farmMapper.toEntity(farm));
         return fields.stream().map(mapper::toDto).toList();
     }
-
     @Override
-    public FieldResponseDto updateField(FieldUpdateRequestDto fieldUpdateRequestDto){
-        if(!repository.existsById(fieldUpdateRequestDto.id())){
-            throw new  NotFoundException("Field", fieldUpdateRequestDto.id());
+    public FieldResponseDto updateField(FieldUpdateRequestDto fieldUpdateRequestDto) {
+        Field existingField = repository.findById(fieldUpdateRequestDto.id())
+                .orElseThrow(() -> new NotFoundException("Field", fieldUpdateRequestDto.id()));
+
+        Farm farm = existingField.getFarm();
+
+        List<Field> otherFields = repository.findAllByFarm(farm).stream()
+                .filter(f -> !f.getId().equals(fieldUpdateRequestDto.id()))
+                .toList();
+
+        double totalOtherFieldsArea = otherFields.stream()
+                .mapToDouble(Field::getArea)
+                .sum();
+
+        double updatedFieldArea = fieldUpdateRequestDto.area();
+        if (updatedFieldArea < 1000) {
+            throw new FieldCreationException(
+                    "Area of the field must be at least 1000 m² (0.1 hectare).");
         }
-        Field field = repository.save(mapper.toEntity(fieldUpdateRequestDto));
-        return mapper.toDto(field);
+        if (updatedFieldArea > (farm.getArea() / 2)) {
+            throw new FieldCreationException("No field can exceed 50% of the farm's total area.");
+        }
+
+        if (totalOtherFieldsArea + updatedFieldArea > farm.getArea()) {
+            throw new FieldCreationException("Total area of fields cannot exceed the farm area.");
+        }
+
+        if (otherFields.size() + 1 > 10) {
+            throw new FieldCreationException("A farm cannot have more than 10 fields.");
+        }
+
+        Field updatedField = mapper.toEntity(fieldUpdateRequestDto);
+        updatedField.setFarm(farm);
+        Field savedField = repository.save(updatedField);
+
+        return mapper.toDto(savedField);
     }
+
 
     @Override
     public void deleteFieldById(UUID id){

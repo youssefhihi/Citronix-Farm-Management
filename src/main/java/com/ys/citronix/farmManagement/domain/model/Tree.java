@@ -1,6 +1,8 @@
 package com.ys.citronix.farmManagement.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ys.citronix.farmManagement.domain.valueObject.TreeId;
+import com.ys.citronix.harvestManagement.domain.model.HarvestDetails;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.data.annotation.CreatedDate;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -36,6 +39,11 @@ public class Tree {
     private Field field;
     @CreatedDate
     private LocalDateTime createdDate;
+
+
+    @OneToMany(mappedBy = "tree", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<HarvestDetails> harvestDetails;
 
     public Tree() {}
 

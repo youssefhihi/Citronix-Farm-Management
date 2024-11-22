@@ -1,5 +1,6 @@
 package com.ys.citronix.farmManagement.api;
 
+import com.ys.citronix.farmManagement.application.dto.request.FieldUpdateRequestDto;
 import com.ys.citronix.farmManagement.application.service.FarmApplicationService;
 import com.ys.citronix.farmManagement.application.dto.request.FieldRequestDto;
 import com.ys.citronix.farmManagement.application.dto.response.FarmResponseDto;
@@ -46,5 +47,22 @@ public class FieldController {
                 HttpStatus.OK
         );
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<ApiResponse<FieldResponseDto>> updateFields(@RequestBody @Valid FieldUpdateRequestDto field) {
+        FieldResponseDto fieldResponseDto = service.updateField(field);
+        ApiResponse<FieldResponseDto> response = new ApiResponse<>(
+                fieldResponseDto,
+                "field Updated successfully",
+                HttpStatus.OK
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteField(@PathVariable String id) {
+        service.deleteFieldById(UUID.fromString(id));
+        return new ResponseEntity<>("field deleted successfully", HttpStatus.OK);
     }
 }

@@ -30,8 +30,15 @@ public class FarmDomainService implements FarmService , FarmApplicationService {
     }
     @Override
     public FarmResponseDto createFarm(FarmRequestDto farmRequestDto) {
-        Farm farm = repository.save(mapper.toEntity(farmRequestDto));
-        return mapper.toDto(farm);
+
+        Farm farm = Farm.builder()
+                .area(farmRequestDto.area())
+                .createdDateTime(farmRequestDto.createdDateTime())
+                .location(farmRequestDto.location())
+                .name(farmRequestDto.name())
+                .build();
+
+        return mapper.toDto(repository.save(farm));
     }
 
     @Override

@@ -14,6 +14,7 @@ import com.ys.citronix.harvestManagement.domain.enums.Season;
 import com.ys.citronix.harvestManagement.domain.model.HarvestDetails;
 import com.ys.citronix.harvestManagement.domain.service.HarvestDetailsService;
 import com.ys.citronix.harvestManagement.infrastructure.repository.HarvestDetailsRepository;
+import com.ys.citronix.sharedkernel.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -72,4 +73,13 @@ public class HarvestDetailsDomainService implements HarvestDetailsService, Harve
       List<HarvestDetails> harvestDetails =  repository.findAllByHarvest(harvestMapper.toEntity(harvest));
       return harvestDetails.stream().map(mapper::toDto).collect(Collectors.toList());
     }
+
+    @Override
+    public void deleteHarvestDetailsById(UUID id){
+        if (!repository.existsById(id)){
+            throw new NotFoundException("Harvest details",id);
+        }
+        repository.deleteById(id);
+    }
+
 }

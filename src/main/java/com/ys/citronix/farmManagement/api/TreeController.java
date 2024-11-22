@@ -1,6 +1,7 @@
 package com.ys.citronix.farmManagement.api;
 
 import com.ys.citronix.farmManagement.application.dto.request.TreeRequestDto;
+import com.ys.citronix.farmManagement.application.dto.request.TreeUpdateRequestDto;
 import com.ys.citronix.farmManagement.application.dto.response.FieldResponseDto;
 import com.ys.citronix.farmManagement.application.dto.response.TreeResponseDto;
 import com.ys.citronix.farmManagement.application.service.FieldApplicationService;
@@ -44,6 +45,19 @@ public class TreeController {
                 HttpStatus.CREATED
         );
         return new ResponseEntity<>(response, HttpStatus.CREATED);
-
     }
+
+    @PutMapping
+    public ResponseEntity<TreeResponseDto> updateTrees(@RequestBody @Valid TreeUpdateRequestDto dto) {
+        TreeResponseDto response = service.updateTree(dto);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteTrees(@PathVariable UUID id) {
+        service.deleteTree(id);
+        return new ResponseEntity<>("Tree Deleted Successfully", HttpStatus.OK);
+    }
+
+
 }

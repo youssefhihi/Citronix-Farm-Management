@@ -4,7 +4,9 @@ import com.ys.citronix.harvestManagement.application.dto.response.HarvestDetails
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestResponseDto;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface HarvestDetailsService {
     List<HarvestDetailsResponseDto> getHarvestDetailsByHarvest(HarvestResponseDto harvest);
+    void deleteHarvestDetailsById(UUID id);
 }

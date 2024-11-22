@@ -1,14 +1,12 @@
 package com.ys.citronix.farmManagement.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.ys.citronix.farmManagement.domain.valueObject.FarmId;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
@@ -19,6 +17,9 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Farm {
 
     @Id
