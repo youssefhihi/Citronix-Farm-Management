@@ -1,6 +1,7 @@
 package com.ys.citronix.harvestManagement.domain.service.impl;
 
 import com.ys.citronix.farmManagement.application.dto.request.TreeRequestDto;
+import com.ys.citronix.farmManagement.application.dto.response.FieldResponseDto;
 import com.ys.citronix.farmManagement.application.dto.response.TreeResponseDto;
 import com.ys.citronix.farmManagement.application.mapper.FarmMapper;
 import com.ys.citronix.farmManagement.application.mapper.FieldMapper;
@@ -136,33 +137,9 @@ public class HarvestDomainService implements HarvestService, HarvestApplicationS
         repository.deleteById(id);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public List<HarvestResponseDto> getHarvestsByfield(FieldResponseDto fieldResponseDto){
+        List<HarvestDetailsResponseDto> harvestDetailsResponseDtos = harvestDetailsService.getHarvestDetailsByField_id(fieldResponseDto);
+      return harvestDetailsResponseDtos.stream().map(HarvestDetailsResponseDto::harvest).distinct().toList();
+    }
 }

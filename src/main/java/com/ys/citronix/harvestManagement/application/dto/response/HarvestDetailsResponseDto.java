@@ -9,6 +9,7 @@ import java.util.UUID;
 public record HarvestDetailsResponseDto(
         UUID id,
         Double quantity,
-        TreeResponseDto tree
+        TreeResponseDto tree,
+        HarvestResponseDto harvest
 ) {
 }

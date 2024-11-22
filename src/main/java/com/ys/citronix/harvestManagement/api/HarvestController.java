@@ -24,6 +24,7 @@ import java.util.UUID;
 @Validated
 public class HarvestController {
     private final HarvestService service;
+    private final FieldApplicationService fieldApplicationService;
 
     @PostMapping
     public ResponseEntity<ApiResponse<HarvestResponseDto>> createHarvest(
@@ -54,6 +55,13 @@ public class HarvestController {
     public ResponseEntity<String> deleteHarvest(@PathVariable  String id){
         service.deleteHarvest(UUID.fromString(id));
         return new ResponseEntity<>("Harvest Deleted Successfully",HttpStatus.OK);
+    }
+
+    @GetMapping("/field/{fieldId}")
+    public ResponseEntity<List<HarvestResponseDto>> getHarvestByFieldId( @PathVariable  String fieldId){
+        FieldResponseDto fieldResponseDto = fieldApplicationService.findFieldById(UUID.fromString(fieldId));
+        List<HarvestResponseDto> list = service.getHarvestsByfield(fieldResponseDto);
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
 
