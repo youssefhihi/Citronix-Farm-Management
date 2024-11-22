@@ -33,7 +33,7 @@ public class Field {
     @JoinColumn(name = "farm_id")
     private Farm farm;
 
-    @OneToMany(mappedBy = "field")
+    @OneToMany(mappedBy = "field", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
     private List<Tree> trees = new ArrayList<>();
 
