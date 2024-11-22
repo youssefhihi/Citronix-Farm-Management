@@ -6,6 +6,7 @@ import com.ys.citronix.harvestManagement.domain.model.Harvest;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface HarvestRepository extends JpaRepository<Harvest, UUID> {

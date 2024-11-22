@@ -1,5 +1,6 @@
 package com.ys.citronix.harvestManagement.domain.service.impl;
 
+import com.ys.citronix.farmManagement.application.dto.response.FieldResponseDto;
 import com.ys.citronix.farmManagement.application.dto.response.TreeResponseDto;
 import com.ys.citronix.farmManagement.application.mapper.TreeMapper;
 import com.ys.citronix.farmManagement.domain.model.Farm;
@@ -80,6 +81,17 @@ public class HarvestDetailsDomainService implements HarvestDetailsService, Harve
             throw new NotFoundException("Harvest details",id);
         }
         repository.deleteById(id);
+    }
+
+    @Override
+    public List<HarvestDetailsResponseDto> getHarvestDetailsByField_id(FieldResponseDto fieldResponseDto){
+        Field field = Field.builder()
+                .area(fieldResponseDto.area())
+                .id(fieldResponseDto.id())
+                .name(fieldResponseDto.name())
+                .build();
+        List<HarvestDetails> harvestDetails = repository.findAllByTree_Field(field);
+        return harvestDetails.stream().map(mapper::toDto).collect(Collectors.toList());
     }
 
 }

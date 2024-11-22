@@ -14,5 +14,7 @@ import java.util.UUID;
 public interface HarvestDetailsRepository extends JpaRepository<HarvestDetails, UUID> {
     Boolean existsByTree_IdAndHarvest_Season(UUID treeId, Season season);
     List<HarvestDetails> findAllByTree_Field_FarmAndHarvest_Season(Farm farm, Season season);
+    List<HarvestDetails> findAllByTree_Field(Field field);
     List<HarvestDetails> findAllByHarvest(Harvest harvest);
+
 }

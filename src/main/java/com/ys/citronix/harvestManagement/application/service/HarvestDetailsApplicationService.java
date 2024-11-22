@@ -1,5 +1,6 @@
 package com.ys.citronix.harvestManagement.application.service;
 
+import com.ys.citronix.farmManagement.application.dto.response.FieldResponseDto;
 import com.ys.citronix.farmManagement.domain.model.Farm;
 import com.ys.citronix.harvestManagement.application.dto.request.HarvestDetailsRequestDto;
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestDetailsResponseDto;
@@ -14,4 +15,5 @@ public interface HarvestDetailsApplicationService {
     Boolean existsByTreeFieldSeasonAndYear(Farm farm, Season season, Integer year);
     void createHarvestDetails(HarvestDetailsRequestDto harvestDetailsRequestDto);
     List<HarvestDetailsResponseDto> getHarvestDetailsByHarvest(HarvestResponseDto harvest);
+    List<HarvestDetailsResponseDto> getHarvestDetailsByField_id(FieldResponseDto fieldResponseDto);
 }

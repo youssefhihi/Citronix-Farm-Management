@@ -86,7 +86,8 @@ public class HarvestDetailsTest {
         when(mapper.toDto(harvestDetails)).thenReturn(new HarvestDetailsResponseDto(
                 harvestDetails.getId(),
                 harvestDetails.getQuantity(),
-                treeResponseDto
+                treeResponseDto,
+                harvestResponseDto
         ));
 
 
@@ -135,7 +136,8 @@ public class HarvestDetailsTest {
         when(mapper.toDto(harvestDetails)).thenReturn(new HarvestDetailsResponseDto(
                 harvestDetails.getId(),
                 harvestDetails.getQuantity(),
-                treeResponseDto
+                treeResponseDto,
+                harvestResponseDto
         ));
 
 
