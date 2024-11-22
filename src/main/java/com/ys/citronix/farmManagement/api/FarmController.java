@@ -8,6 +8,9 @@ import com.ys.citronix.sharedkernel.api.ApiResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,8 +27,10 @@ public class FarmController {
     private final FarmService service;
 
     @GetMapping
-    public ResponseEntity<List<FarmResponseDto>> getAllFarms() {
-        List<FarmResponseDto> farms = service.getAllFarms();
+    public ResponseEntity<Page<FarmResponseDto>> getAllFarms(
+            @PageableDefault(size = 10, sort = "name") Pageable pageable
+    ) {
+        Page<FarmResponseDto> farms = service.getAllFarms(pageable);
         return new ResponseEntity<>(farms, HttpStatus.OK);
     }
 
