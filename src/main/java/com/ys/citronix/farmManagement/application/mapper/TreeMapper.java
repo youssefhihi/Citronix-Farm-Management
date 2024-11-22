@@ -16,6 +16,8 @@ public interface TreeMapper {
     @Mapping(target = "field", source = "field")
     TreeResponseDto toDto(Tree tree);
     @Mapping(target = "field", source = "field")
+//    @Mapping(target = "ProductivityPerYear", ignore = true)
+//    @Mapping(target = "age", ignore = true)
     Tree toEntity(TreeResponseDto treeResponseDto);
 
     Tree toEntity(TreeUpdateRequestDto treeUpdateRequestDto);

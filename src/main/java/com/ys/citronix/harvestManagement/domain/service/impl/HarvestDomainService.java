@@ -20,7 +20,6 @@ import com.ys.citronix.harvestManagement.infrastructure.repository.HarvestReposi
 import com.ys.citronix.sharedkernel.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -82,10 +81,10 @@ public class HarvestDomainService implements HarvestService, HarvestApplicationS
 
     public HarvestResponseDto updateHarvest(HarvestUpdateRequestDto harvestRequestDto) {
 
-        Harvest harvest = repository.findById(harvestRequestDto.id()).orElseThrow(
+        Harvest foundHarvest = repository.findById(harvestRequestDto.id()).orElseThrow(
                 () -> new NotFoundException("Harvest", harvestRequestDto.id())
         );
-        Double oldQuantity = harvest.getTotalQuantity();
+        Double oldQuantity = foundHarvest.getTotalQuantity();
 
         List<TreeResponseDto> trees = treeService.findAllTreesByIds(harvestRequestDto.treeId());
 
@@ -114,6 +113,7 @@ public class HarvestDomainService implements HarvestService, HarvestApplicationS
                 .ifPresent(t -> {
                     throw new IllegalArgumentException("Tree " + t.id() + " has already been harvested this season.");
                 });
+        Harvest harvest = mapper.toEntity(harvestRequestDto);
         harvest.setTotalQuantity( oldQuantity + trees.stream().mapToDouble( TreeResponseDto::ProductivityPerYear).sum());
         Harvest updatedHarvest =  repository.save(harvest);
         eventPublisher.publishEvent(new HarvestCreatedEvent(mapper.toDto(updatedHarvest), trees));
@@ -126,6 +126,14 @@ public class HarvestDomainService implements HarvestService, HarvestApplicationS
     public HarvestResponseDto findHarvestById(UUID harvestId){
         Harvest harvest = repository.findById(harvestId).orElseThrow(() -> new NotFoundException("harvest", harvestId));
         return mapper.toDto(harvest);
+    }
+
+    @Override
+    public void deleteHarvest(UUID id){
+        if(!repository.existsById(id)) {
+            throw new NotFoundException("harvest", id);
+        }
+        repository.deleteById(id);
     }
 
 

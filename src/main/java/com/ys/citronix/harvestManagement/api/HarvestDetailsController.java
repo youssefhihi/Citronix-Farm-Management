@@ -8,10 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,5 +27,11 @@ public class HarvestDetailsController {
         HarvestResponseDto harvest = harvestService.findHarvestById(UUID.fromString(harvestId));
         List<HarvestDetailsResponseDto> responseDto = service.getHarvestDetailsByHarvest(harvest);
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteTreeFromHarvest(@PathVariable String id){
+        service.deleteHarvestDetailsById(UUID.fromString(id));
+        return new ResponseEntity<>("Tree deleted successfully From Harvest", HttpStatus.OK);
     }
 }

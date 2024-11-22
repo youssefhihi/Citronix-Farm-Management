@@ -3,6 +3,7 @@ package com.ys.citronix.salesManagement.api;
 import com.ys.citronix.harvestManagement.application.dto.response.HarvestResponseDto;
 import com.ys.citronix.harvestManagement.application.service.HarvestApplicationService;
 import com.ys.citronix.salesManagement.application.dto.request.SaleRequestDto;
+import com.ys.citronix.salesManagement.application.dto.request.SaleUpdateRequestDto;
 import com.ys.citronix.salesManagement.application.dto.response.SaleResponseDto;
 import com.ys.citronix.salesManagement.domain.service.SaleService;
 import com.ys.citronix.sharedkernel.api.ApiResponse;
@@ -44,5 +45,22 @@ public class SaleController {
         HarvestResponseDto harvest = harvestService.findHarvestById(UUID.fromString(harvestId));
         List<SaleResponseDto> response = service.getAllSalesByHarvest(harvest);
         return new ResponseEntity<>(response,HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<ApiResponse<SaleResponseDto>> updateSale(@RequestBody @Valid SaleUpdateRequestDto dto){
+        SaleResponseDto responseDto = service.updateSale(dto);
+        ApiResponse<SaleResponseDto> response = new ApiResponse<>(
+                responseDto,
+                "Sale Updated Successfully",
+                HttpStatus.OK
+        );
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteSale(@PathVariable String id) {
+        service.deleteSale(UUID.fromString(id));
+        return new ResponseEntity<>("Sale Deleted Successfully", HttpStatus.OK);
     }
 }

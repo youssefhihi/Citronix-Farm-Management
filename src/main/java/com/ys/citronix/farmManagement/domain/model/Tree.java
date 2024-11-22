@@ -41,7 +41,7 @@ public class Tree {
     private LocalDateTime createdDate;
 
 
-    @OneToMany(mappedBy = "tree", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "tree", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<HarvestDetails> harvestDetails;
 
