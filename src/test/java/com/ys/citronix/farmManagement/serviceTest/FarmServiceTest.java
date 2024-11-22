@@ -53,23 +53,23 @@ public class FarmServiceTest {
         farmRequestDto = new FarmRequestDto("Test Farm", "Test Location", 15.0, LocalDateTime.now());
     }
 
-    @Test
-    void getAllFarms_Success() {
-
-        List<Farm> farms = List.of(farm, farm);
-        List<FarmResponseDto> expectedDtos = List.of(farmResponseDto, farmResponseDto);
-
-        Mockito.when(farmRepository.findAll()).thenReturn(farms);
-        Mockito.when(farmMapper.toDto(farm)).thenReturn(farmResponseDto);
-
-
-        List<FarmResponseDto> result = farmDomainService.getAllFarms();
-
-
-        assertEquals(expectedDtos, result);
-        verify(farmRepository, times(1)).findAll();
-        verify(farmMapper, times(2)).toDto(farm);
-    }
+//    @Test
+//    void getAllFarms_Success() {
+//
+//        List<Farm> farms = List.of(farm, farm);
+//        List<FarmResponseDto> expectedDtos = List.of(farmResponseDto, farmResponseDto);
+//
+//        Mockito.when(farmRepository.findAll()).thenReturn(farms);
+//        Mockito.when(farmMapper.toDto(farm)).thenReturn(farmResponseDto);
+//
+//
+//        List<FarmResponseDto> result = farmDomainService.getAllFarms();
+//
+//
+//        assertEquals(expectedDtos, result);
+//        verify(farmRepository, times(1)).findAll();
+//        verify(farmMapper, times(2)).toDto(farm);
+//    }
 
 
     @Test

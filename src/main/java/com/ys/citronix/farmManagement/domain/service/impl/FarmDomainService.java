@@ -11,6 +11,8 @@ import com.ys.citronix.farmManagement.infrastructure.repository.FarmRepository;
 import com.ys.citronix.farmManagement.infrastructure.repository.FarmSearchRepository;
 import com.ys.citronix.sharedkernel.domain.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,10 +26,11 @@ public class FarmDomainService implements FarmService , FarmApplicationService {
     private final FarmMapper mapper;
 
     @Override
-    public List<FarmResponseDto> getAllFarms() {
-        List<Farm> farms = repository.findAll();
-        return farms.stream().map(mapper::toDto).toList();
+    public Page<FarmResponseDto> getAllFarms(Pageable pageable) {
+        Page<Farm> farmsPage = repository.findAll(pageable);
+        return farmsPage.map(mapper::toDto);
     }
+
     @Override
     public FarmResponseDto createFarm(FarmRequestDto farmRequestDto) {
 
